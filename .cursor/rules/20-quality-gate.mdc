@@ -1,0 +1,179 @@
+---
+alwaysApply: true
+---
+---
+description: Critérios obrigatórios de revisão antes de concluir tarefas Angular
+globs:
+  - "src/**/*.ts"
+  - "src/**/*.html"
+  - "src/**/*.scss"
+  - "src/**/*.spec.ts"
+alwaysApply: true
+---
+
+# Quality Gate
+
+Antes de considerar qualquer tarefa concluída, executar uma revisão objetiva.
+
+## 1. TypeScript
+
+Verificar:
+
+- não existe `any`;
+- utilizar `unknown` quando o tipo não for conhecido;
+- não existem casts desnecessários;
+- payloads possuem tipos próprios;
+- respostas HTTP estão tipadas;
+- writable signals permanecem privados quando possível;
+- não existem propriedades públicas mutáveis sem necessidade;
+- não existem imports não utilizados;
+- não existe código morto.
+
+---
+
+## 2. Angular moderno
+
+Verificar:
+
+- components são standalone por padrão;
+- não foi adicionado `standalone: true`;
+- não existem NgModules;
+- utilizar `inject()` em vez de constructor injection;
+- utilizar `input()` e `output()` em vez de decorators;
+- components utilizam `ChangeDetectionStrategy.OnPush`;
+- utilizar `@if`, `@for` e `@switch`;
+- `@for` possui expressão `track`;
+- não utilizar `*ngIf`, `*ngFor` ou `*ngSwitch`;
+- não utilizar `ngClass`;
+- não utilizar `ngStyle`;
+- imagens estáticas utilizam `NgOptimizedImage`;
+- rotas de features utilizam lazy loading;
+- não utilizar `@HostBinding`;
+- não utilizar `@HostListener`.
+
+---
+
+## 3. Estado
+
+Verificar:
+
+- estado local utiliza Signals;
+- estado derivado utiliza `computed()`;
+- não existe estado derivado duplicado;
+- não utilizar `effect()` para copiar Signals;
+- não utilizar `mutate()`;
+- transformações permanecem puras;
+- erros não alteram estado local indevidamente;
+- mutações HTTP preservam o estado anterior em caso de falha.
+
+---
+
+## 4. HTTP
+
+Verificar:
+
+- components não utilizam `HttpClient`;
+- URLs estão centralizadas;
+- services possuem responsabilidade única;
+- erros são normalizados;
+- não existem subscriptions duplicadas acidentais;
+- não existem nested subscriptions;
+- não existe subscription manual sem necessidade;
+- quando houver subscription manual vinculada ao ciclo de vida, utilizar mecanismo seguro de teardown;
+- estado de loading é encerrado em sucesso e erro;
+- formulário mantém os dados após falha de salvamento.
+
+---
+
+## 5. Templates
+
+Verificar:
+
+- templates não contêm regras de negócio complexas;
+- acessibilidade semântica foi preservada;
+- botões possuem nomes claros;
+- ícones clicáveis possuem rótulo acessível;
+- campos possuem labels;
+- erros de formulário são associados ao campo;
+- modais gerenciam foco adequadamente;
+- foco permanece visível;
+- contraste atende WCAG AA;
+- navegação por teclado funciona;
+- não existe interação importante disponível somente por hover;
+- estado de loading é comunicado;
+- estado vazio possui orientação clara;
+- estado de erro possui ação recuperável quando aplicável.
+
+---
+
+## 6. Testes
+
+Utilizar Vitest, padrão atual para novas aplicações Angular criadas pelo CLI.
+
+Para services HTTP, configurar:
+
+```ts
+TestBed.configureTestingModule({
+  providers: [
+    provideHttpClient(),
+    provideHttpClientTesting(),
+  ],
+});
+```
+
+Verificar:
+
+- método HTTP;
+- URL;
+- payload;
+- tipo de resposta;
+- erro;
+- alteração correta do estado;
+- preservação do estado após erro;
+- validações dos formulários;
+- loading;
+- empty state;
+- error state.
+
+Utilizar Component Harnesses seletivamente para componentes compartilhados e interativos.
+
+Não criar harnesses para componentes puramente visuais sem necessidade.
+
+---
+
+## 7. Escopo
+
+Antes de adicionar código, responder internamente:
+
+1. Esta implementação está descrita na spec ativa?
+2. Ela resolve um problema real?
+3. Existe uma solução mais simples?
+4. Esta abstração já possui mais de um uso concreto?
+5. O custo de manutenção é justificável em um desafio de três dias?
+
+Se alguma resposta indicar excesso de engenharia, simplificar.
+
+---
+
+## 8. Validação final da tarefa
+
+Executar os scripts aplicáveis disponíveis no projeto:
+
+```bash
+npm run lint
+npm run test
+npm run build
+```
+
+Caso algum script ainda não exista, registrar isso em `docs/ESTADO_ATUAL.md`.
+
+Não afirmar que a tarefa foi concluída caso alguma validação relevante permaneça falhando.
+
+Antes de encerrar:
+
+- atualizar a task;
+- atualizar `docs/ESTADO_ATUAL.md`;
+- registrar limitações;
+- informar arquivos alterados;
+- informar testes executados;
+- informar pendências reais.

@@ -1,0 +1,382 @@
+---
+alwaysApply: true
+---
+---
+description: Arquitetura obrigatória do painel administrativo e da loja pública
+globs:
+  - "src/**/*.ts"
+  - "src/**/*.html"
+  - "src/**/*.scss"
+alwaysApply: true
+---
+
+# Arquitetura obrigatória do projeto
+
+## 1. Contexto
+
+Este projeto é um desafio técnico frontend desenvolvido com Angular 21.
+
+A aplicação representa uma plataforma simples de gerenciamento de catálogo para uma loja virtual.
+
+Existem dois contextos visuais:
+
+- painel administrativo;
+- loja pública de demonstração.
+
+O escopo principal obrigatório é o CRUD administrativo de produtos.
+
+A loja pública, o carrinho e o checkout simulado são diferenciais incrementais. Eles não podem comprometer a qualidade, os testes ou a documentação do CRUD principal.
+
+---
+
+## 2. Limites de escopo
+
+Não implementar sem solicitação explícita da spec ativa:
+
+- autenticação;
+- cadastro de usuário;
+- guards de autenticação;
+- interceptores de token;
+- gerenciamento de usuários;
+- NgRx;
+- SSR;
+- pagamentos reais;
+- backend próprio;
+- estoque;
+- frete real;
+- abstrações genéricas antecipadas;
+- features não descritas nas specs.
+
+Não implementar tecnologias apenas para demonstrar conhecimento.
+
+Cada nova abstração deve resolver um problema real do projeto.
+
+---
+
+## 3. Organização por features
+
+Utilizar organização orientada a features.
+
+Estrutura esperada:
+
+```text
+src/app/
+├── core/
+│   ├── config/
+│   ├── http/
+│   └── layout/
+│
+├── features/
+│   ├── admin/
+│   │   ├── dashboard/
+│   │   └── products/
+│   │       ├── data-access/
+│   │       ├── pages/
+│   │       └── ui/
+│   │
+│   └── store/
+│       ├── catalog/
+│       ├── product-details/
+│       ├── cart/
+│       └── checkout/
+│
+└── shared/
+    └── ui/
+```
+
+Responsabilidades:
+
+| Pasta | Responsabilidade |
+|---|---|
+| `core` | Configuração global, tratamento HTTP e layouts |
+| `features` | Regras e telas organizadas por domínio |
+| `data-access` | Integração HTTP, stores e modelos da feature |
+| `pages` | Componentes de rota e orquestração |
+| `ui` | Componentes visuais reutilizáveis dentro da feature |
+| `shared/ui` | Componentes verdadeiramente genéricos |
+
+Não mover componentes para `shared` prematuramente.
+
+Um componente somente deve ir para `shared` quando houver reutilização comprovada entre contextos diferentes.
+
+---
+
+## 4. Rotas
+
+Utilizar lazy loading para features.
+
+Preferir:
+
+```ts
+{
+  path: 'admin',
+  loadChildren: () =>
+    import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+}
+```
+
+E:
+
+```ts
+{
+  path: 'store',
+  loadChildren: () =>
+    import('./features/store/store.routes').then((m) => m.STORE_ROUTES),
+}
+```
+
+Componentes de página podem utilizar `loadComponent()` quando fizer sentido.
+
+Não criar NgModules.
+
+Rotas previstas:
+
+```text
+/admin
+/admin/products
+/admin/products/new
+/admin/products/:id/edit
+
+/store
+/store/products/:id
+/store/cart
+/store/checkout
+/store/order-success
+```
+
+---
+
+## 5. Separação entre API e domínio
+
+Não utilizar diretamente modelos remotos como se fossem modelos internos da interface quando houver necessidades diferentes.
+
+Manter contratos separados:
+
+```ts
+interface ApiProduct {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+}
+```
+
+```ts
+type CreateProductPayload = Omit<ApiProduct, 'id'>;
+```
+
+```ts
+type UpdateProductPayload = CreateProductPayload;
+```
+
+```ts
+interface StoreCartItem {
+  product: ApiProduct;
+  quantity: number;
+}
+```
+
+O carrinho local da loja pública não deve utilizar diretamente o contrato remoto de carrinho como fonte de verdade.
+
+---
+
+## 6. Estado com Signals
+
+Utilizar Signals para estado local e stores de feature.
+
+Manter writable signals privados sempre que possível:
+
+```ts
+private readonly productsState = signal<ApiProduct[]>([]);
+
+readonly products = this.productsState.asReadonly();
+```
+
+Utilizar `computed()` para estado derivado:
+
+```ts
+readonly filteredProducts = computed(() => {
+  const term = this.searchTerm().trim().toLowerCase();
+
+  return this.products().filter((product) =>
+    product.title.toLowerCase().includes(term),
+  );
+});
+```
+
+Não duplicar valores derivados em signals independentes.
+
+Não copiar dados entre signals usando `effect()`.
+
+Utilizar `linkedSignal()` somente quando um valor for derivado de outro estado, mas também puder ser ajustado manualmente pelo usuário.
+
+Usar `effect()` apenas como última opção para sincronização com APIs imperativas, como:
+
+- `localStorage`;
+- analytics;
+- logging;
+- bibliotecas externas não reativas.
+
+Não utilizar `effect()` como substituto de `computed()`.
+
+Não utilizar `mutate()`.
+
+---
+
+## 7. HTTP
+
+Utilizar `HttpClient` em services dedicados.
+
+Centralizar a URL base:
+
+```ts
+export const API_CONFIG = {
+  baseUrl: 'https://fakestoreapi.com',
+} as const;
+```
+
+Components não devem chamar `HttpClient` diretamente.
+
+Components não devem construir URLs.
+
+Utilizar interceptor funcional para normalização de erros.
+
+Preferir:
+
+```ts
+provideHttpClient(
+  withInterceptors([errorInterceptor]),
+);
+```
+
+Evitar interceptores baseados em classes.
+
+Lembrar que cada subscription em um Observable retornado pelo `HttpClient` dispara uma nova requisição HTTP.
+
+Evitar múltiplas subscriptions acidentais.
+
+---
+
+## 8. Formulários
+
+Utilizar Reactive Forms tipados.
+
+Não utilizar Template-driven Forms.
+
+Para o formulário de produto:
+
+```ts
+interface ProductFormValue {
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+}
+```
+
+O formulário deve:
+
+- impedir submissão inválida;
+- exibir mensagens acessíveis;
+- preservar dados em caso de falha HTTP;
+- desabilitar submissão durante salvamento;
+- reutilizar o mesmo componente para criação e edição.
+
+Não utilizar Signal Forms neste projeto.
+
+Signal Forms ainda são experimentais no Angular 21 e o desafio solicita explicitamente formulários reativos.
+
+---
+
+## 9. Carrinho público
+
+O carrinho local deve utilizar:
+
+```ts
+interface StoreCartState {
+  items: StoreCartItem[];
+}
+```
+
+Persistir o carrinho em `localStorage`.
+
+Components não devem acessar `localStorage` diretamente.
+
+Encapsular storage dentro do store ou de um adapter dedicado.
+
+Utilizar `computed()` para:
+
+- total de itens;
+- subtotal por produto;
+- valor total;
+- estado vazio;
+- habilitação do checkout.
+
+---
+
+## 10. Estilos e identidade visual
+
+Utilizar uma identidade visual consistente inspirada na empresa da vaga.
+
+Não espalhar valores visuais repetidos nos componentes.
+
+Centralizar tokens visuais por meio de CSS custom properties:
+
+```scss
+:root {
+  --color-primary: ...;
+  --color-secondary: ...;
+  --color-surface: ...;
+  --color-text: ...;
+  --color-muted: ...;
+  --color-border: ...;
+  --radius-sm: ...;
+  --radius-md: ...;
+  --radius-lg: ...;
+}
+```
+
+Preservar:
+
+- contraste WCAG AA;
+- estados de foco visíveis;
+- navegação por teclado;
+- hierarquia visual;
+- responsividade mobile-first.
+
+---
+
+## 11. Regras de implementação
+## Arquitetura de estilos
+Utilizar SCSS.
+
+Regras obrigatórias:
+- utilizar `@use` e `@forward`;
+- não utilizar `@import`;
+- manter tokens globais em `src/styles/_variables.scss`;
+- exportar CSS custom properties em `src/styles/_theme.scss`;
+- manter funções reutilizáveis em `src/styles/_functions.scss`;
+- manter mixins reutilizáveis em `src/styles/_mixins.scss`;
+- utilizar estilos locais por component;
+- evitar valores mágicos repetidos;
+- não utilizar `::ng-deep`;
+- não criar utilitários globais específicos de feature;
+- não abstrair estilos antes de identificar reutilização concreta;
+- utilizar `theme.ts` somente para tokens realmente consumidos pelo TypeScript.
+
+Antes de implementar uma feature:
+
+1. Ler `AGENTS.md`.
+2. Ler `docs/ESTADO_ATUAL.md`.
+3. Ler integralmente a spec ativa.
+4. Consultar decisões existentes em `docs/DECISOES.md`.
+5. Usar o MCP do Angular quando houver dúvida sobre API ou padrão atual.
+6. Implementar somente a primeira tarefa pendente.
+7. Executar validações aplicáveis.
+8. Atualizar a task concluída.
+9. Atualizar `docs/ESTADO_ATUAL.md`.
+
+Não avançar silenciosamente para tarefas não solicitadas.
