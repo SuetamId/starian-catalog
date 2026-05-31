@@ -1,7 +1,7 @@
 # Plano — Spec 002 CRUD de produtos
 
 ## Fase 1 — Acesso a dados
-- Criar modelo e payload de produto.
+- Criar modelo e payload de produto em `features/admin/products/data-access`.
 - Criar serviço de API de produtos.
 - Criar testes do serviço para GET, POST, PUT e DELETE.
 

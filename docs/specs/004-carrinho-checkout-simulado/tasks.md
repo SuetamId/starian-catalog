@@ -1,32 +1,34 @@
-# Tarefas — Spec 001 Fundação do projeto
+# Tarefas — Spec 004 Carrinho e checkout simulado
 
-## Inicialização
-- [ ] Inicializar projeto standalone em Angular 21.
-- [ ] Confirmar versões de pacotes e scripts.
-- [ ] Configurar lint caso não esteja incluído no setup escolhido do CLI.
-- [ ] Selecionar e instalar dependências mínimas de UI.
+## Carrinho
 
-## Estrutura
-- [ ] Criar `core/config`.
-- [ ] Criar `core/http`.
-- [ ] Criar `core/layout/app-shell`.
-- [ ] Criar `shared/ui`.
-- [ ] Criar `features/products`.
-- [ ] Adicionar página placeholder de produtos.
-- [ ] Adicionar rotas lazy-loaded de produtos.
-- [ ] Configurar rotas raiz e wildcard.
+- [x] Criar modelos e `CartStorageAdapter`.
+- [x] Criar `CartStoreService` com Signals e persistência.
+- [x] Hidratar carrinho com catálogo reconciliado.
 
-## HTTP
-- [ ] Adicionar configuração centralizada da API.
-- [ ] Adicionar modelo de erro HTTP normalizado.
-- [ ] Adicionar interceptor funcional de erros.
-- [ ] Registrar `provideHttpClient()` e interceptor.
+## Compra
+
+- [x] Botão **Comprar** no grid do catálogo.
+- [x] Botão **Adicionar ao carrinho** nos detalhes.
+- [x] Toast de feedback ao adicionar.
+- [x] Ícone de carrinho com badge no `StoreLayout`.
+
+## Fluxo
+
+- [x] Criar `CartPage`.
+- [x] Criar `CheckoutPage` com Reactive Forms.
+- [x] Criar `OrderSuccessPage`.
+- [x] Registrar rotas `/store/cart`, `/store/checkout`, `/store/order-success`.
+
+## Layout
+
+- [x] Corrigir overflow scroll no `StoreLayout`.
 
 ## Qualidade
-- [ ] Adicionar teste smoke de roteamento ou shell.
-- [ ] Executar lint com sucesso.
-- [ ] Executar testes unitários com sucesso.
-- [ ] Executar build de produção com sucesso.
-- [ ] Atualizar comandos do README.
-- [ ] Preencher `review.md`.
-- [ ] Atualizar `docs/ESTADO_ATUAL.md`.
+
+- [x] Testes unitários relevantes.
+- [x] ADR-023.
+- [x] Atualizar `ESTADO_ATUAL.md`, `README.md`, `review.md`.
+- [x] `npm run lint`
+- [x] `npm run test -- --watch=false`
+- [x] `npm run build`

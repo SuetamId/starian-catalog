@@ -1,0 +1,23 @@
+@use 'styles/index' as styles;
+
+:host {
+  display: block;
+}
+
+.product-image__img,
+.product-image__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: styles.$radius-sm;
+}
+
+.product-image__img {
+  object-fit: cover;
+  background: var(--color-surface-elevated);
+}
+
+.product-image__placeholder {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
+}

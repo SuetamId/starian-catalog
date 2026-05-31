@@ -1,0 +1,36 @@
+<dialog
+  #dialogRef
+  class="confirm-dialog"
+  [attr.aria-labelledby]="titleId"
+  [attr.aria-describedby]="errorMessage() ? errorId + ' ' + descriptionId : descriptionId"
+  (cancel)="onDialogCancel($event)"
+  (close)="onDialogClose()"
+>
+  <div class="confirm-dialog__content">
+    <h2 class="confirm-dialog__title" [id]="titleId">{{ title() }}</h2>
+    <p class="confirm-dialog__message" [id]="descriptionId">{{ message() }}</p>
+
+    @if (errorMessage(); as error) {
+      <p class="confirm-dialog__error" [id]="errorId" role="alert">{{ error }}</p>
+    }
+
+    <div class="confirm-dialog__actions">
+      <button
+        class="confirm-dialog__cancel"
+        type="button"
+        [disabled]="isProcessing()"
+        (click)="onCancelClick()"
+      >
+        {{ cancelLabel() }}
+      </button>
+      <button
+        class="confirm-dialog__confirm"
+        type="button"
+        [disabled]="isProcessing()"
+        (click)="onConfirmClick()"
+      >
+        {{ isProcessing() ? 'Excluindo...' : confirmLabel() }}
+      </button>
+    </div>
+  </div>
+</dialog>

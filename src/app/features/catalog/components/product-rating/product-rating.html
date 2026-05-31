@@ -1,0 +1,21 @@
+<div
+  class="product-rating"
+  [class.product-rating--compact]="compact()"
+  [attr.aria-label]="ariaLabel()"
+  role="img"
+>
+  <div class="product-rating__stars" aria-hidden="true">
+    @for (star of stars(); track $index) {
+      <span
+        class="product-rating__star"
+        [class.product-rating__star--full]="star === 'full'"
+        [class.product-rating__star--half]="star === 'half'"
+        [class.product-rating__star--empty]="star === 'empty'"
+      ></span>
+    }
+  </div>
+  <span class="product-rating__value">{{ rate() | number: '1.1-1' : 'pt-BR' }}</span>
+  @if (!compact() && countLabel(); as label) {
+    <span class="product-rating__count">({{ label }})</span>
+  }
+</div>

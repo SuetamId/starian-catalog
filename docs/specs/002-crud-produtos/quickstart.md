@@ -7,6 +7,8 @@
 - Ler integralmente esta pasta de especificação.
 
 ## Regra de implementação
+Implementar somente dentro de `features/admin/products` (P0). Não criar pastas de `features/store/*` nesta spec.
+
 Construir primeiro o menor fluxo completo:
 1. GET de produtos;
 2. estado de carregamento no store;

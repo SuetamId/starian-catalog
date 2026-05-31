@@ -1,0 +1,60 @@
+<div class="store-layout">
+  <header class="store-layout__header">
+    <a class="store-layout__brand" routerLink="/store" aria-label="Starian Catalog — início">
+      <img
+        class="store-layout__logo"
+        src="/images/starian-catalog-symbol.svg"
+        alt=""
+        width="28"
+        height="28"
+      />
+      <div class="store-layout__brand-copy">
+        <span class="store-layout__brand-name">Starian</span>
+        <span class="store-layout__brand-label">Store</span>
+      </div>
+    </a>
+
+    <div class="store-layout__brand-accent" aria-hidden="true"></div>
+
+    <nav class="store-layout__nav" aria-label="Navegação da loja">
+      <a
+        class="store-layout__cart-button"
+        routerLink="/store/cart"
+        routerLinkActive="store-layout__cart-button--active"
+        [attr.aria-label]="cartAriaLabel()"
+      >
+        <svg class="store-layout__cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M6 6h15l-1.5 9h-12L6 6z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M6 6 5 3H2"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="9" cy="20" r="1.25" fill="currentColor" />
+          <circle cx="18" cy="20" r="1.25" fill="currentColor" />
+        </svg>
+        @if (cart.totalItems() > 0) {
+          <span class="store-layout__cart-badge">{{ cart.totalItems() }}</span>
+        }
+      </a>
+      <a class="store-layout__nav-link store-layout__nav-link--admin" routerLink="/admin/products">
+        Painel admin
+      </a>
+    </nav>
+  </header>
+
+  <main class="store-layout__main">
+    <router-outlet />
+  </main>
+
+  <app-toast-container />
+</div>

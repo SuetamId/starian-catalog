@@ -1,0 +1,81 @@
+<section class="checkout-page" aria-labelledby="checkout-page-title">
+  <header class="checkout-page__header">
+    <div class="checkout-page__header-accent" aria-hidden="true"></div>
+    <div class="checkout-page__header-copy">
+      <h1 id="checkout-page-title" class="checkout-page__title">Checkout</h1>
+      <p class="checkout-page__subtitle">
+        Simulação de compra — nenhum pagamento real será processado.
+      </p>
+    </div>
+  </header>
+
+  <div class="checkout-page__layout">
+    <form class="checkout-page__form" [formGroup]="checkoutForm" (ngSubmit)="submitCheckout()">
+      <div class="checkout-page__field">
+        <label class="checkout-page__label" for="checkout-full-name">Nome completo</label>
+        <input
+          id="checkout-full-name"
+          class="checkout-page__input"
+          type="text"
+          formControlName="fullName"
+          autocomplete="name"
+          [attr.aria-invalid]="checkoutForm.controls.fullName.invalid && checkoutForm.controls.fullName.touched"
+        />
+        @if (checkoutForm.controls.fullName.invalid && checkoutForm.controls.fullName.touched) {
+          <p class="checkout-page__error" role="alert">Informe seu nome completo.</p>
+        }
+      </div>
+
+      <div class="checkout-page__field">
+        <label class="checkout-page__label" for="checkout-email">E-mail</label>
+        <input
+          id="checkout-email"
+          class="checkout-page__input"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          [attr.aria-invalid]="checkoutForm.controls.email.invalid && checkoutForm.controls.email.touched"
+        />
+        @if (checkoutForm.controls.email.invalid && checkoutForm.controls.email.touched) {
+          <p class="checkout-page__error" role="alert">Informe um e-mail válido.</p>
+        }
+      </div>
+
+      <div class="checkout-page__field">
+        <label class="checkout-page__label" for="checkout-address">Endereço de entrega</label>
+        <textarea
+          id="checkout-address"
+          class="checkout-page__textarea"
+          rows="3"
+          formControlName="address"
+          autocomplete="street-address"
+          [attr.aria-invalid]="checkoutForm.controls.address.invalid && checkoutForm.controls.address.touched"
+        ></textarea>
+        @if (checkoutForm.controls.address.invalid && checkoutForm.controls.address.touched) {
+          <p class="checkout-page__error" role="alert">Informe o endereço de entrega.</p>
+        }
+      </div>
+
+      <div class="checkout-page__actions">
+        <button
+          class="checkout-page__submit"
+          type="submit"
+          [disabled]="isSubmitting()"
+        >
+          Confirmar pedido
+        </button>
+        <a class="checkout-page__back" routerLink="/store/cart">Voltar ao carrinho</a>
+      </div>
+    </form>
+
+    <aside class="checkout-page__summary" aria-labelledby="checkout-summary-title">
+      <h2 id="checkout-summary-title" class="checkout-page__summary-title">Resumo</h2>
+      <p class="checkout-page__summary-total">
+        {{ cart.subtotal() | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+      </p>
+      <p class="checkout-page__summary-note">
+        Ambiente demonstrativo. O pedido será concluído localmente.
+      </p>
+    </aside>
+  </div>
+</section>

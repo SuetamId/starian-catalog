@@ -379,7 +379,10 @@ Comportamento esperado:
 - após criação bem-sucedida: adicionar o produto retornado ao estado local;
 - após atualização bem-sucedida: substituir o produto correspondente no estado local;
 - após exclusão bem-sucedida: remover o produto correspondente do estado local;
-- após falha de mutação: preservar o estado local anterior e exibir mensagem de erro.
+- após falha de mutação: preservar o estado local anterior e exibir mensagem de erro;
+- **não** refazer `GET /products` automaticamente ao retornar à listagem após uma mutação bem-sucedida;
+- buscar produtos remotamente apenas na primeira carga da sessão (`ensureProductsLoaded`) ou quando o usuário acionar retry explícito;
+- refresh do navegador reinicia a sessão e restaura os dados originais da API.
 
 ---
 

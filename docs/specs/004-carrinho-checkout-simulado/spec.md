@@ -1,81 +1,41 @@
-# Spec 001 — Fundação do projeto
+# Spec 004 — Carrinho e checkout simulado
 
 ## Status
-Aprovada para implementação.
+
+**Concluída** (2026-05-31).
 
 ## Objetivo
-Criar uma fundação limpa em Angular 21 para o painel administrativo de produtos antes de implementar telas de negócio.
 
-## Valor para manutenção
-Como pessoa desenvolvedora responsável pela solução, quero uma fundação previsível para que as features sejam implementadas de forma consistente, testadas com segurança e compreendidas rapidamente durante a avaliação.
+Completar a experiência de e-commerce demonstrativa da loja pública com carrinho local persistente, fluxo de compra simulado e checkout sem pagamento real.
 
 ## Escopo
-- Inicializar projeto Angular 21.
-- Utilizar estrutura standalone.
-- Configurar roteamento.
-- Criar fronteira lazy-loaded da feature de produtos.
-- Configurar HTTP com `provideHttpClient()`.
-- Criar interceptor HTTP funcional de erros.
-- Criar modelo tipado de erro normalizado.
-- Estabelecer pastas `core`, `shared` e `features`.
-- Selecionar e configurar abordagem leve de componentes de UI.
-- Criar shell mínimo da aplicação.
-- Configurar lint, testes e scripts de build de produção.
-- Adicionar referências iniciais ao README.
 
-## Fora do escopo
-- Implementação da listagem de produtos.
-- Implementação do formulário de produtos.
-- Serviço completo de CRUD além de placeholders mínimos necessários.
-- Autenticação.
-- Estilização avançada.
-- Testes end-to-end.
+- `CartStoreService` com Signals e persistência em `localStorage`.
+- `CartStorageAdapter` encapsulando leitura/escrita do storage.
+- Botão **Comprar** no grid do catálogo e **Adicionar ao carrinho** na página de detalhes.
+- Ícone de carrinho com badge no header do `StoreLayout`.
+- Toast de feedback ao adicionar produtos.
+- Rotas lazy-loaded `/store/cart`, `/store/checkout` e `/store/order-success`.
+- Página de carrinho com ajuste de quantidade, remoção e resumo.
+- Checkout simulado com Reactive Forms tipado.
+- Correção de overflow no layout da loja (`height: 100vh`, scroll isolado no main).
 
-## Requisitos funcionais
-### RF-001 — Aplicação inicia corretamente
-O projeto deve executar localmente utilizando o comando documentado.
+## Fora de escopo
 
-### RF-002 — Rota raiz redireciona para produtos
-Ao navegar para `/`, a aplicação deve redirecionar para `/products`.
-
-### RF-003 — Rota de produtos utiliza lazy loading
-A feature de produtos deve possuir uma fronteira explícita de carregamento sob demanda.
-
-### RF-004 — HTTP configurado centralmente
-`HttpClient` deve estar disponível por configuração de providers no nível da aplicação.
-
-### RF-005 — Erros podem ser normalizados centralmente
-Um interceptor HTTP funcional deve fornecer um ponto claro para normalização de erros.
-
-### RF-006 — Layout-base renderiza
-Um shell mínimo deve renderizar o conteúdo da rota ativa.
-
-## Requisitos não funcionais
-- Utilizar configurações strict do TypeScript geradas ou suportadas pelo Angular CLI.
-- Evitar dependências não utilizadas.
-- Manter a organização compreensível.
-- Preferir primitivos acessíveis de UI.
-- Evitar abstrações especulativas.
+- Integração real com `POST /carts` da Fake Store API.
+- Pagamento, frete ou impostos reais.
+- Autenticação de cliente.
+- Drawer/modal de carrinho (navegação dedicada para `/store/cart`).
+- Bibliotecas externas de UI ou ícones.
 
 ## Critérios de aceite
-- [ ] Projeto Angular 21 inicializado.
-- [ ] Aplicação executa localmente.
-- [ ] Rota raiz redireciona para `/products`.
-- [ ] Feature de produtos utiliza lazy loading.
-- [ ] Shell renderiza o conteúdo roteado.
-- [ ] `provideHttpClient()` configurado.
-- [ ] Interceptor funcional registrado.
-- [ ] Modelo de erro normalizado criado.
-- [ ] Estrutura inicial de pastas criada.
-- [ ] README contém instruções de configuração.
-- [ ] Testes passam.
-- [ ] Lint passa.
-- [ ] Build de produção passa.
 
-## Edge cases
-- Rota desconhecida deve redirecionar para rota segura ou exibir página simples de não encontrado.
-- Placeholder da rota de produtos não deve falhar antes da implementação da feature.
-- Interceptor deve preservar informações necessárias para consumidores.
-
-## Definição de concluído
-Todos os critérios de aceite passam e o documento de revisão foi preenchido honestamente.
+- [x] Produtos podem ser adicionados ao carrinho a partir do catálogo e dos detalhes.
+- [x] Header exibe ícone de carrinho com badge de quantidade.
+- [x] Carrinho persiste em `localStorage` e sobrevive ao refresh.
+- [x] `/store/cart` permite revisar itens, alterar quantidades e remover produtos.
+- [x] `/store/checkout` valida formulário e redireciona para sucesso.
+- [x] `/store/order-success` confirma pedido simulado e esvazia o carrinho.
+- [x] Layout da loja rola corretamente com catálogo extenso.
+- [x] Lint, testes e build passando.
+- [x] Documentação atualizada.

@@ -1,0 +1,15 @@
+@if (isVisible()) {
+  <img
+    class="product-image__img"
+    [src]="currentSrc()"
+    [alt]="alt()"
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.loading]="loading()"
+    [attr.fetchpriority]="fetchPriority()"
+    decoding="async"
+    (error)="onImageError()"
+  />
+} @else {
+  <span class="product-image__placeholder" aria-hidden="true"></span>
+}

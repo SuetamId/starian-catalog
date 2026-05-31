@@ -1,0 +1,19 @@
+<section class="product-create-page" aria-labelledby="product-create-title">
+  <header class="product-create-page__header">
+    <div class="product-create-page__header-accent" aria-hidden="true"></div>
+    <h1 id="product-create-title" class="product-create-page__title">Novo produto</h1>
+    <p class="product-create-page__subtitle">Cadastre um item para exibição no catálogo.</p>
+  </header>
+
+  <app-product-form
+    [categories]="store.categories()"
+    [categoriesLoading]="store.isLoadingCategories()"
+    [categoriesError]="categoriesErrorMessage()"
+    [isSaving]="store.isCreating()"
+    [submitError]="submitErrorMessage()"
+    submitLabel="Salvar produto"
+    (save)="onSave($event)"
+    (cancel)="onCancel()"
+    (categoriesRetry)="retryCategories()"
+  />
+</section>

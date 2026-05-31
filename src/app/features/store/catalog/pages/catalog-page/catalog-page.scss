@@ -1,0 +1,51 @@
+@use 'styles/index' as styles;
+
+.catalog-page {
+  display: grid;
+  gap: styles.$spacing-xl;
+  max-width: 72rem;
+  min-width: 0;
+  margin-inline: auto;
+
+  @include styles.content-fade-in;
+}
+
+.catalog-page__header {
+  display: grid;
+  gap: styles.$spacing-md;
+  padding-bottom: styles.$spacing-lg;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.catalog-page__header-accent {
+  @include styles.page-accent;
+}
+
+.catalog-page__header-copy {
+  display: grid;
+  gap: styles.$spacing-xs;
+}
+
+.catalog-page__title {
+  @include styles.page-title;
+}
+
+.catalog-page__subtitle {
+  @include styles.page-subtitle;
+}
+
+.catalog-page__meta {
+  margin: styles.$spacing-xs 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.catalog-page__count {
+  color: var(--color-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.catalog-page__reload-error {
+  display: block;
+}

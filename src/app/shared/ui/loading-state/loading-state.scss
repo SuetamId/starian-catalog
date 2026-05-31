@@ -1,0 +1,14 @@
+@use 'styles/index' as styles;
+
+.loading-state {
+  @include styles.surface-panel;
+
+  padding: styles.$spacing-xl;
+  text-align: center;
+}
+
+.loading-state__message {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+}

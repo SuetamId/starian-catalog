@@ -11,8 +11,17 @@ Valores brutos de cor, espaçamento e radius não devem ser repetidos em compone
 Mixins devem representar padrões reutilizáveis reais, não abstrações antecipadas.
 
 ## 1. Direção visual
-A aplicação deve se parecer com um painel administrativo moderno, limpo e confiável.
-A interface deve ser calma, legível e eficiente, evitando excesso de elementos visuais.
+A interface do painel administrativo segue estética premium minimalista inspirada em produtos modernos (Vercel, Linear), sem cópia literal:
+
+- fundo quase preto e superfícies discretas com bordas finas;
+- tipografia clara, hierarquia forte e espaçamento generoso;
+- botões compactos padronizados (primary, secondary, ghost, danger);
+- microinterações suaves respeitando `prefers-reduced-motion`;
+- assinatura Starian discreta (símbolo, nome, label Catalog, gradientes raros, foco azul).
+
+Evitar: visual gamer, neon excessivo, sombras pesadas, dashboard corporativo tradicional e tabela estilo ERP.
+
+Padrões visuais reutilizáveis vivem em `src/styles/_controls.scss` (ADR-021). Components consomem mixins via BEM local.
 
 ## 2. Layout principal
 - Shell da aplicação com header compacto e sidenav com colapse model. 
@@ -35,6 +44,8 @@ A página de listagem deve suportar intencionalmente:
 - Ação para limpar filtros quando houver filtro ativo.
 - Ação primária para adicionar produto.
 - Ações de editar e excluir em cada produto.
+- Clique na linha ou no card (exceto botões de ação) abre a edição do produto.
+- Alternância entre visualização em lista e em cards.
 
 ## 5. Experiência do formulário
 Os fluxos de criação e edição reutilizam o mesmo formulário.
@@ -69,8 +80,8 @@ O dialog de confirmação deve:
 - bloquear confirmação repetida enquanto a requisição estiver em andamento.
 
 ## 7. Responsividade
-- Desktop: tabela com ações alinhadas.
-- Tablet: tabela compacta ou cards conforme o espaço disponível.
+- Desktop: lista ou grid de cards com ações alinhadas.
+- Tablet: lista compacta ou cards conforme o espaço disponível.
 - Mobile: cards com hierarquia legível e ações acessíveis.
 
 

@@ -1,0 +1,115 @@
+<section class="cart-page" aria-labelledby="cart-page-title">
+  <header class="cart-page__header">
+    <div class="cart-page__header-accent" aria-hidden="true"></div>
+    <div class="cart-page__header-copy">
+      <h1 id="cart-page-title" class="cart-page__title">Carrinho</h1>
+      <p class="cart-page__subtitle">
+        Revise os itens antes de finalizar a compra demonstrativa.
+      </p>
+    </div>
+  </header>
+
+  @if (cart.isEmpty()) {
+    <section class="cart-page__empty" aria-labelledby="cart-empty-title">
+      <h2 id="cart-empty-title" class="cart-page__empty-title">Seu carrinho está vazio</h2>
+      <p class="cart-page__empty-message">
+        Explore o catálogo e adicione produtos para simular uma compra.
+      </p>
+      <a class="cart-page__empty-action" routerLink="/store">Ir ao catálogo</a>
+    </section>
+  } @else {
+    <div class="cart-page__layout">
+      <ul class="cart-page__items">
+        @for (item of cart.items(); track item.product.id) {
+          <li class="cart-page__item">
+            <article class="cart-item">
+              <a
+                class="cart-item__link"
+                [routerLink]="['/store/products', item.product.id]"
+                [attr.aria-label]="'Ver detalhes de ' + item.product.title"
+              >
+                <app-product-image
+                  class="cart-item__image"
+                  [src]="item.product.image"
+                  [alt]="item.product.title"
+                  [width]="96"
+                  [height]="96"
+                  fetchPriority="low"
+                />
+                <div class="cart-item__copy">
+                  <h2 class="cart-item__title">{{ item.product.title }}</h2>
+                  <div class="cart-item__meta">
+                    <app-category-chip [category]="item.product.category" />
+                    @if (item.product.rating; as rating) {
+                      <app-product-rating
+                        [rate]="rating.rate"
+                        [count]="rating.count"
+                        [compact]="true"
+                      />
+                    }
+                  </div>
+                  <p class="cart-item__price">
+                    {{
+                      item.product.price * item.quantity
+                        | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR'
+                    }}
+                  </p>
+                </div>
+              </a>
+
+              <div class="cart-item__controls">
+                <div class="cart-item__quantity" role="group" [attr.aria-label]="'Quantidade de ' + item.product.title">
+                  <button
+                    class="cart-item__quantity-button"
+                    type="button"
+                    [attr.aria-label]="'Diminuir quantidade de ' + item.product.title"
+                    (click)="decrementQuantity(item.product.id, item.quantity)"
+                  >
+                    −
+                  </button>
+                  <span class="cart-item__quantity-value" aria-live="polite">{{ item.quantity }}</span>
+                  <button
+                    class="cart-item__quantity-button"
+                    type="button"
+                    [attr.aria-label]="'Aumentar quantidade de ' + item.product.title"
+                    (click)="incrementQuantity(item.product.id, item.quantity)"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button
+                  class="cart-item__remove"
+                  type="button"
+                  [attr.aria-label]="'Remover ' + item.product.title + ' do carrinho'"
+                  (click)="removeItem(item.product.id)"
+                >
+                  Remover
+                </button>
+              </div>
+            </article>
+          </li>
+        }
+      </ul>
+
+      <aside class="cart-page__summary" aria-labelledby="cart-summary-title">
+        <h2 id="cart-summary-title" class="cart-page__summary-title">Resumo</h2>
+        <dl class="cart-page__summary-list">
+          <div class="cart-page__summary-row">
+            <dt>Itens</dt>
+            <dd>{{ cart.totalItems() }}</dd>
+          </div>
+          <div class="cart-page__summary-row cart-page__summary-row--total">
+            <dt>Subtotal</dt>
+            <dd>
+              {{ cart.subtotal() | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+            </dd>
+          </div>
+        </dl>
+        <p class="cart-page__summary-note">Frete e impostos simulados no checkout.</p>
+        <a class="cart-page__checkout-action" routerLink="/store/checkout">Finalizar compra</a>
+        <a class="cart-page__continue-action" routerLink="/store">Continuar comprando</a>
+      </aside>
+    </div>
+  }
+</section>

@@ -1,0 +1,27 @@
+@use 'styles/index' as styles;
+
+.filtered-empty-state {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-md;
+  padding: styles.$spacing-xl;
+  text-align: center;
+}
+
+.filtered-empty-state__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.filtered-empty-state__message {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.filtered-empty-state__action {
+  @include styles.button-secondary;
+
+  justify-self: center;
+}

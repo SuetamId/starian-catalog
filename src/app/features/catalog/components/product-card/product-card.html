@@ -1,0 +1,31 @@
+<div class="product-card__main">
+  <app-product-image
+    class="product-card__image"
+    [src]="product().image"
+    [alt]="product().title"
+    [width]="imageWidth()"
+    [height]="imageHeight()"
+    fetchPriority="low"
+    [deferUntilVisible]="deferImage()"
+  />
+  <div class="product-card__content">
+    @if (titleLevel() === 'h2') {
+      <h2 class="product-card__title">{{ product().title }}</h2>
+    } @else {
+      <h3 class="product-card__title">{{ product().title }}</h3>
+    }
+    <app-category-chip class="product-card__category" [category]="product().category" />
+    @if (product().rating; as rating) {
+      <app-product-rating
+        class="product-card__rating"
+        [rate]="rating.rate"
+        [count]="rating.count"
+        [compact]="true"
+      />
+    }
+    <p class="product-card__price">
+      {{ product().price | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+    </p>
+    <p class="product-card__description">{{ product().description }}</p>
+  </div>
+</div>

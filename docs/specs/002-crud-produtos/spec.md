@@ -10,10 +10,10 @@ Entregar o fluxo completo de gestão de produtos exigido pelo desafio técnico.
 Como pessoa usuária administrativa, quero listar, criar, editar e excluir produtos para manter o catálogo por meio de um painel claro e confiável.
 
 ## Escopo
-- Modelo tipado de produto e payload do formulário.
+- Modelo tipado de produto e payload do formulário em `features/admin/products/data-access`.
 - Integração com endpoints de produtos da Fake Store API.
 - Store da feature baseado em Signals.
-- Página de listagem de produtos.
+- Página de listagem em `/admin/products`.
 - Busca por título.
 - Filtro de categoria.
 - Estados de carregamento, erro, vazio e vazio filtrado.
@@ -26,9 +26,10 @@ Como pessoa usuária administrativa, quero listar, criar, editar e excluir produ
 - Explicação da arquitetura e da limitação da API no README.
 
 ## Fora do escopo
-- Autenticação.
+- Autenticação (sem login, cadastro, `AuthGuard` ou interceptor de token).
 - Carrinho.
 - Checkout.
+- Loja pública (`features/store/*`).
 - Edição de avaliações.
 - Upload de imagem.
 - Paginação server-side.

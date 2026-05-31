@@ -1,0 +1,31 @@
+<ul class="store-product-grid">
+  @for (product of products(); track product.id) {
+    <li class="store-product-grid__item">
+      <article class="store-product-grid__card">
+        <a
+          class="store-product-grid__link"
+          [routerLink]="['/store/products', product.id]"
+          [attr.aria-label]="'Ver detalhes de ' + product.title"
+        >
+          <app-product-card
+            [product]="product"
+            titleLevel="h2"
+            [imageWidth]="176"
+            [imageHeight]="176"
+            [deferImage]="true"
+          />
+        </a>
+        <div class="store-product-grid__actions">
+          <button
+            class="store-product-grid__buy"
+            type="button"
+            [attr.aria-label]="'Adicionar ' + product.title + ' ao carrinho'"
+            (click)="addToCart(product, $event)"
+          >
+            Comprar
+          </button>
+        </div>
+      </article>
+    </li>
+  }
+</ul>

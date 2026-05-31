@@ -1,0 +1,54 @@
+@use 'styles/index' as styles;
+
+.order-success-page {
+  display: grid;
+  place-items: center;
+  min-height: min(100%, 32rem);
+
+  @include styles.content-fade-in;
+}
+
+.order-success-page__panel {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-lg;
+  width: min(100%, 32rem);
+  padding: styles.$spacing-2xl;
+  text-align: center;
+}
+
+.order-success-page__accent {
+  @include styles.page-accent;
+
+  justify-self: center;
+}
+
+.order-success-page__title {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.order-success-page__message {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.order-success-page__actions {
+  display: grid;
+  gap: styles.$spacing-sm;
+}
+
+.order-success-page__primary {
+  @include styles.button-primary;
+
+  text-decoration: none;
+}
+
+.order-success-page__secondary {
+  @include styles.button-secondary;
+
+  text-decoration: none;
+}

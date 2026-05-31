@@ -1,0 +1,80 @@
+@use 'styles/index' as styles;
+
+.confirm-dialog {
+  width: min(100% - 2rem, 28rem);
+  padding: 0;
+  color: var(--color-text);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: styles.$radius-lg;
+  box-shadow: var(--shadow-elevated);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 72%);
+  }
+}
+
+.confirm-dialog__content {
+  display: grid;
+  gap: styles.$spacing-lg;
+  padding: styles.$spacing-xl styles.$spacing-lg;
+}
+
+.confirm-dialog__title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text);
+}
+
+.confirm-dialog__message {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  line-height: 1.55;
+}
+
+.confirm-dialog__error {
+  margin: 0;
+  padding: styles.$spacing-sm styles.$spacing-md;
+  border: 1px solid color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
+  border-radius: styles.$radius-md;
+  background: color-mix(in srgb, var(--color-danger) 6%, var(--color-surface));
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  flex-direction: column;
+  gap: styles.$spacing-sm;
+  padding-top: styles.$spacing-xs;
+
+  @include styles.respond-to(sm) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+.confirm-dialog__cancel {
+  @include styles.button-secondary;
+
+  width: 100%;
+
+  @include styles.respond-to(sm) {
+    width: auto;
+  }
+}
+
+.confirm-dialog__confirm {
+  @include styles.button-danger-filled;
+
+  width: 100%;
+
+  @include styles.respond-to(sm) {
+    width: auto;
+  }
+}

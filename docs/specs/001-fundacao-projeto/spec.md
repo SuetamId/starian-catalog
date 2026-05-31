@@ -1,7 +1,7 @@
 # Spec 001 — Fundação do projeto
 
 ## Status
-Aprovada para implementação.
+Concluída com ressalva documental (README pendente de consolidação final).
 
 ## Objetivo
 Criar uma fundação limpa em Angular 21 para o painel administrativo de produtos antes de implementar telas de negócio.
@@ -17,7 +17,7 @@ Como pessoa desenvolvedora responsável pela solução, quero uma fundação pre
 - Configurar HTTP com `provideHttpClient()`.
 - Criar interceptor HTTP funcional de erros.
 - Criar modelo tipado de erro normalizado.
-- Estabelecer pastas `core`, `shared` e `features`.
+- Estabelecer pastas `core`, `shared/ui` (quando necessário) e `features/admin/products` conforme implementação incremental P0.
 - Selecionar e configurar abordagem leve de componentes de UI.
 - Criar shell mínimo da aplicação.
 - Configurar lint, testes e scripts de build de produção.
@@ -27,7 +27,8 @@ Como pessoa desenvolvedora responsável pela solução, quero uma fundação pre
 - Implementação da listagem de produtos.
 - Implementação do formulário de produtos.
 - Serviço completo de CRUD além de placeholders mínimos necessários.
-- Autenticação.
+- Autenticação (sem login, cadastro, `AuthGuard` ou interceptor de token).
+- Pastas de `features/store/*`.
 - Estilização avançada.
 - Testes end-to-end.
 
@@ -35,11 +36,11 @@ Como pessoa desenvolvedora responsável pela solução, quero uma fundação pre
 ### RF-001 — Aplicação inicia corretamente
 O projeto deve executar localmente utilizando o comando documentado.
 
-### RF-002 — Rota raiz redireciona para produtos
-Ao navegar para `/`, a aplicação deve redirecionar para `/products`.
+### RF-002 — Rota raiz redireciona para produtos administrativos
+Ao navegar para `/`, a aplicação deve redirecionar para `/admin/products`.
 
-### RF-003 — Rota de produtos utiliza lazy loading
-A feature de produtos deve possuir uma fronteira explícita de carregamento sob demanda.
+### RF-003 — Rotas administrativas utilizam lazy loading
+A feature administrativa de produtos deve possuir uma fronteira explícita de carregamento sob demanda em `features/admin/products`.
 
 ### RF-004 — HTTP configurado centralmente
 `HttpClient` deve estar disponível por configuração de providers no nível da aplicação.
@@ -58,19 +59,19 @@ Um shell mínimo deve renderizar o conteúdo da rota ativa.
 - Evitar abstrações especulativas.
 
 ## Critérios de aceite
-- [ ] Projeto Angular 21 inicializado.
-- [ ] Aplicação executa localmente.
-- [ ] Rota raiz redireciona para `/products`.
-- [ ] Feature de produtos utiliza lazy loading.
-- [ ] Shell renderiza o conteúdo roteado.
-- [ ] `provideHttpClient()` configurado.
-- [ ] Interceptor funcional registrado.
-- [ ] Modelo de erro normalizado criado.
-- [ ] Estrutura inicial de pastas criada.
-- [ ] README contém instruções de configuração.
-- [ ] Testes passam.
-- [ ] Lint passa.
-- [ ] Build de produção passa.
+- [x] Projeto Angular 21 inicializado.
+- [x] Aplicação executa localmente.
+- [x] Rota raiz redireciona para `/admin/products`.
+- [x] Feature administrativa de produtos utiliza lazy loading.
+- [x] Shell renderiza o conteúdo roteado.
+- [x] `provideHttpClient()` configurado.
+- [x] Interceptor funcional registrado.
+- [x] Modelo de erro normalizado criado.
+- [x] Estrutura inicial de pastas criada.
+- [ ] README contém instruções de configuração (pendente deliberado).
+- [x] Testes passam.
+- [x] Lint passa.
+- [x] Build de produção passa.
 
 ## Edge cases
 - Rota desconhecida deve redirecionar para rota segura ou exibir página simples de não encontrado.

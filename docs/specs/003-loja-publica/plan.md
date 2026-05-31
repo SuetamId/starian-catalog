@@ -1,40 +1,33 @@
-# Plano — Spec 001 Fundação do projeto
+# Plano — Spec 003 Loja pública
 
-## Sequência de implementação
+## Premissas
 
-### Fase 1 — Inicialização
-- Criar projeto Angular 21 com Angular CLI.
-- Confirmar estrutura standalone.
-- Confirmar test runner e abordagem de lint.
-- Instalar somente dependências de UI aprovadas.
+- Specs 002, 002.1 e 002.2 concluídas.
+- `ProductStoreService` é singleton `providedIn: 'root'` com estado reconciliado.
+- Design system em `_controls.scss` e tokens globais.
 
-### Fase 2 — Estrutura
-- Criar fronteiras `core`, `shared` e `features/products`.
-- Criar shell mínimo e página placeholder de produtos.
-- Adicionar rotas lazy-loaded da feature.
+## Ordem de implementação
 
-### Fase 3 — Fundação HTTP
-- Configurar `provideHttpClient()`.
-- Criar modelo `NormalizedHttpError`.
-- Criar interceptor funcional de erros.
+### 1. Fundação da loja
+- `StoreLayout` em `core/layout/store-layout/`.
+- `store.routes.ts` e registro em `app.routes.ts`.
+- Habilitar **Visualizar loja** no `AdminLayout`.
 
-### Fase 4 — Quality gates
-- Adicionar ou atualizar testes básicos de shell e roteamento.
-- Executar lint.
-- Executar testes.
-- Executar build de produção.
-- Atualizar README e estado atual.
+### 2. Catálogo
+- `CatalogStoreService` com filtros isolados do admin.
+- `CatalogPage`, `StoreProductGrid`, `StoreFilters`.
 
-## Comandos de validação
-Confirmar scripts exatos após a inicialização do projeto. Formato esperado:
+### 3. Detalhes
+- `ProductDetailsPage` em `/store/products/:id`.
+
+### 4. Qualidade e docs
+- Testes de store, catalog e details.
+- ADR-022, `ESTADO_ATUAL`, `tasks.md`, `review.md`.
+
+## Validação
 
 ```bash
 npm run lint
-npm test -- --watch=false
+npm run test -- --watch=false
 npm run build
 ```
-
-## Riscos
-- Defaults do Angular CLI podem alterar nomes de scripts; documentar comandos reais após inicialização.
-- Configuração extensa de biblioteca de UI pode consumir tempo; preferir configuração mínima.
-- Não implementar telas de produtos prematuramente durante a fundação.

@@ -1,0 +1,54 @@
+<section class="catalog-page" aria-labelledby="catalog-page-title">
+  <header class="catalog-page__header">
+    <div class="catalog-page__header-accent" aria-hidden="true"></div>
+    <div class="catalog-page__header-copy">
+      <h1 id="catalog-page-title" class="catalog-page__title">Catálogo</h1>
+      <p class="catalog-page__subtitle">
+        Explore os produtos gerenciados no painel administrativo nesta sessão.
+      </p>
+      @if (!showInitialLoading() && !showInitialError() && !catalog.isProductsEmpty()) {
+        <p class="catalog-page__meta">
+          <span class="catalog-page__count">{{ productCount() }}</span>
+          produtos disponíveis
+        </p>
+      }
+    </div>
+  </header>
+
+  @if (showInitialLoading()) {
+    <app-loading-state />
+  } @else if (showInitialError()) {
+    <app-error-state [message]="productsErrorMessage()" (retry)="retryLoadProducts()" />
+  } @else if (catalog.isProductsEmpty()) {
+    <app-empty-state />
+  } @else {
+    @if (showReloadError()) {
+      <app-error-state
+        class="catalog-page__reload-error"
+        [compact]="true"
+        [message]="productsErrorMessage()"
+        (retry)="retryLoadProducts()"
+      />
+    }
+
+    <app-product-filters
+      searchPlaceholder="Buscar no catálogo..."
+      fieldIdPrefix="store-filters"
+      [categories]="catalog.categories()"
+      [searchTerm]="catalog.searchTerm()"
+      [selectedCategory]="catalog.selectedCategory()"
+      (searchTermChange)="catalog.setSearchTerm($event)"
+      (selectedCategoryChange)="catalog.setSelectedCategory($event)"
+      (clearFilters)="catalog.clearFilters()"
+    />
+
+    @if (catalog.isFilteredProductsEmpty()) {
+      <app-filtered-empty-state
+        titleId="catalog-filtered-empty-title"
+        (clearFilters)="catalog.clearFilters()"
+      />
+    } @else {
+      <app-store-product-grid [products]="catalog.filteredProducts()" />
+    }
+  }
+</section>

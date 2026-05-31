@@ -1,0 +1,29 @@
+@use 'styles/index' as styles;
+
+.error-state {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-md;
+  padding: styles.$spacing-xl;
+}
+
+.error-state__message {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+.error-state__retry {
+  @include styles.button-secondary;
+
+  justify-self: start;
+}
+
+.error-state--compact {
+  .error-state {
+    padding: styles.$spacing-md;
+    border-color: color-mix(in srgb, var(--color-warning) 35%, var(--color-border));
+  }
+}

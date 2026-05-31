@@ -1,0 +1,156 @@
+<div class="product-form">
+  <form class="product-form__layout" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="product-form__fields">
+      @if (submitError()) {
+        <div class="product-form__submit-error" role="alert">
+          {{ submitError() }}
+        </div>
+      }
+
+      <div class="product-form__field">
+        <label class="product-form__label" for="product-title">Nome do produto</label>
+        <input
+          class="product-form__input"
+          id="product-title"
+          type="text"
+          formControlName="title"
+          autocomplete="off"
+          [attr.aria-invalid]="showError('title')"
+          [attr.aria-describedby]="showError('title') ? errorId('title') : null"
+        />
+        @if (getTitleError(); as titleError) {
+          <p class="product-form__error" [id]="errorId('title')">{{ titleError }}</p>
+        }
+      </div>
+
+      <div class="product-form__field">
+        <label class="product-form__label" for="product-price">Preço</label>
+        <input
+          class="product-form__input"
+          id="product-price"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          [value]="priceDisplay()"
+          placeholder="R$ 0,00"
+          [disabled]="isSaving()"
+          [attr.aria-invalid]="showError('price')"
+          [attr.aria-describedby]="showError('price') ? errorId('price') : null"
+          (input)="onPriceInput($event)"
+          (blur)="onPriceBlur()"
+        />
+        @if (getPriceError(); as priceError) {
+          <p class="product-form__error" [id]="errorId('price')">{{ priceError }}</p>
+        }
+      </div>
+
+      <div class="product-form__field">
+        <label class="product-form__label" for="product-category">Categoria</label>
+        @if (categoriesLoading()) {
+          <p class="product-form__help" id="product-category-help">Carregando categorias...</p>
+        }
+        @if (categoriesError()) {
+          <div class="product-form__categories-error" role="alert">
+            <p>{{ categoriesError() }}</p>
+            <button class="product-form__retry" type="button" (click)="onCategoriesRetry()">
+              Tentar novamente
+            </button>
+          </div>
+        }
+        <select
+          class="product-form__select"
+          id="product-category"
+          formControlName="category"
+          [disabled]="categoriesLoading() || !!categoriesError() || isSaving()"
+          [attr.aria-describedby]="categoriesLoading() ? 'product-category-help' : null"
+          [attr.aria-invalid]="showError('category')"
+        >
+          <option value="">Selecione uma categoria</option>
+          @for (category of categories(); track category) {
+            <option [value]="category">{{ categoryLabel(category) }}</option>
+          }
+        </select>
+        @if (getCategoryError(); as categoryError) {
+          <p class="product-form__error" [id]="errorId('category')">{{ categoryError }}</p>
+        }
+      </div>
+
+      <div class="product-form__field">
+        <label class="product-form__label" for="product-image">URL da imagem</label>
+        <p class="product-form__help" id="product-image-help">
+          Informe uma URL pública válida (http ou https). A pré-visualização usa fallback local se a imagem falhar.
+        </p>
+        <input
+          class="product-form__input"
+          id="product-image"
+          type="url"
+          formControlName="image"
+          autocomplete="off"
+          [attr.aria-describedby]="showError('image') ? 'product-image-help ' + errorId('image') : 'product-image-help'"
+          [attr.aria-invalid]="showError('image')"
+        />
+        @if (getImageError(); as imageError) {
+          <p class="product-form__error" [id]="errorId('image')">{{ imageError }}</p>
+        }
+      </div>
+
+      <div class="product-form__field">
+        <label class="product-form__label" for="product-description">Descrição</label>
+        <textarea
+          class="product-form__textarea"
+          id="product-description"
+          rows="4"
+          formControlName="description"
+          [attr.aria-invalid]="showError('description')"
+          [attr.aria-describedby]="showError('description') ? errorId('description') : null"
+        ></textarea>
+        @if (getDescriptionError(); as descriptionError) {
+          <p class="product-form__error" [id]="errorId('description')">{{ descriptionError }}</p>
+        }
+      </div>
+
+      <div class="product-form__actions">
+        <button class="product-form__submit" type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Salvando...' : submitLabel() }}
+        </button>
+        <button class="product-form__cancel" type="button" [disabled]="isSaving()" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <aside class="product-form__preview" aria-label="Pré-visualização do produto">
+      <p class="product-form__preview-eyebrow">Pré-visualização ao vivo</p>
+      <h2 class="product-form__preview-title">Como o produto aparecerá</h2>
+      @if (previewImageUrl(); as imageUrl) {
+        <app-product-image
+          class="product-form__preview-image"
+          [src]="imageUrl"
+          [alt]="previewTitle()"
+          [width]="160"
+          [height]="160"
+          loading="eager"
+        />
+      } @else {
+        <app-product-image
+          class="product-form__preview-image"
+          [src]="'/images/product-placeholder.svg'"
+          [alt]="previewTitle()"
+          [width]="160"
+          [height]="160"
+          loading="eager"
+        />
+      }
+      <p class="product-form__preview-name">{{ previewTitle() }}</p>
+      @if (previewCategory(); as category) {
+        <app-category-chip class="product-form__preview-category" [category]="category" />
+      } @else {
+        <app-category-chip class="product-form__preview-category" label="Categoria" [muted]="true" />
+      }
+      <p class="product-form__preview-price">
+        {{ previewPrice() | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+      </p>
+      <p class="product-form__preview-description">{{ previewDescription() }}</p>
+    </aside>
+  </form>
+</div>

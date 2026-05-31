@@ -11,6 +11,8 @@
 - Visão geral de testes: https://angular.dev/guide/testing
 - Visão geral de component harnesses: https://angular.dev/guide/testing/component-harnesses-overview
 - Criação de component harnesses: https://angular.dev/guide/testing/creating-component-harnesses
+- MCP Angular: https://angular.dev/ai/mcp
+
 
 ## Fake Store API
 - Documentação da API: https://fakestoreapi.com/docs

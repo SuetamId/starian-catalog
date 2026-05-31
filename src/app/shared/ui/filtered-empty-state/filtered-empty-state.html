@@ -1,0 +1,7 @@
+<section class="filtered-empty-state" [attr.aria-labelledby]="titleId()">
+  <h2 [id]="titleId()" class="filtered-empty-state__title">{{ title() }}</h2>
+  <p class="filtered-empty-state__message">{{ message() }}</p>
+  <button class="filtered-empty-state__action" type="button" (click)="onClearFilters()">
+    {{ clearLabel() }}
+  </button>
+</section>

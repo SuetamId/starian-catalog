@@ -1,0 +1,55 @@
+<section class="product-details-page" aria-labelledby="product-details-title">
+  @if (isResolving()) {
+    <app-loading-state />
+  } @else if (resolveError()) {
+    <app-error-state
+      [message]="resolveError()!"
+      (retry)="retryResolveProduct()"
+    />
+  } @else if (product(); as currentProduct) {
+    <header class="product-details-page__header">
+      <a class="product-details-page__back" routerLink="/store">← Voltar ao catálogo</a>
+      <div class="product-details-page__header-accent" aria-hidden="true"></div>
+      <h1 id="product-details-title" class="product-details-page__title">
+        {{ currentProduct.title }}
+      </h1>
+      <div class="product-details-page__header-meta">
+        <app-category-chip [category]="currentProduct.category" />
+        @if (currentProduct.rating; as rating) {
+          <app-product-rating [rate]="rating.rate" [count]="rating.count" />
+        }
+      </div>
+    </header>
+
+    <div class="product-details-page__layout">
+      <app-product-image
+        class="product-details-page__image"
+        [src]="currentProduct.image"
+        [alt]="currentProduct.title"
+        [width]="420"
+        [height]="420"
+        loading="eager"
+      />
+
+      <div class="product-details-page__content">
+        <p class="product-details-page__price">
+          {{ currentProduct.price | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+        </p>
+        <p class="product-details-page__description">{{ currentProduct.description }}</p>
+        <div class="product-details-page__actions">
+          <button
+            class="product-details-page__buy"
+            type="button"
+            (click)="addToCart(currentProduct)"
+          >
+            Adicionar ao carrinho
+          </button>
+          <a class="product-details-page__cart-link" routerLink="/store/cart">Ver carrinho</a>
+        </div>
+        <p class="product-details-page__note">
+          Ambiente demonstrativo — alterações no painel admin refletem nesta sessão.
+        </p>
+      </div>
+    </div>
+  }
+</section>

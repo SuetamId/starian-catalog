@@ -1,0 +1,31 @@
+@use 'styles/index' as styles;
+
+.product-filters {
+  display: grid;
+  gap: styles.$spacing-md;
+
+  @include styles.respond-to(md) {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+    align-items: end;
+  }
+}
+
+.product-filters__field {
+  display: grid;
+  gap: styles.$spacing-xs;
+}
+
+.product-filters__label {
+  @include styles.field-label;
+}
+
+.product-filters__input,
+.product-filters__select {
+  @include styles.input-control;
+}
+
+.product-filters__clear {
+  @include styles.button-secondary;
+
+  align-self: end;
+}

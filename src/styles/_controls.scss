@@ -1,0 +1,251 @@
+@use 'variables' as variables;
+@use 'mixins' as mixins;
+
+@mixin control-transition($properties...) {
+  $default: border-color, background-color, color, opacity, transform, box-shadow;
+  $list: if(length($properties) > 0, $properties, $default);
+  $transitions: ();
+
+  @each $prop in $list {
+    $transitions: append(
+      $transitions,
+      #{$prop} var(--motion-fast) var(--motion-ease),
+      comma
+    );
+  }
+
+  transition: $transitions;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+@mixin input-control {
+  width: 100%;
+  min-height: var(--control-height-md);
+  padding: 0 variables.$spacing-md;
+  border: 1px solid var(--color-border);
+  border-radius: variables.$radius-md;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+
+  @include mixins.interactive-focus;
+  @include control-transition(border-color, background-color);
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:hover:not(:disabled):not(:focus-visible) {
+    border-color: color-mix(in srgb, var(--color-text-muted) 35%, var(--color-border));
+  }
+}
+
+@mixin field-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$spacing-xs;
+  border: 1px solid transparent;
+  border-radius: variables.$radius-md;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  @include mixins.interactive-focus;
+  @include control-transition;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-size-sm {
+  min-height: var(--control-height-sm);
+  padding: 0 variables.$spacing-sm;
+  font-size: var(--font-size-sm);
+  border-radius: variables.$radius-sm;
+}
+
+@mixin button-size-md {
+  min-height: var(--control-height-md);
+  padding: 0 variables.$spacing-md;
+}
+
+@mixin button-primary {
+  @include button-base;
+  @include button-size-md;
+
+  border-color: color-mix(in srgb, var(--color-primary) 80%, var(--color-border));
+  background: var(--color-primary);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, #fff 8%, var(--color-primary));
+    border-color: color-mix(in srgb, #fff 12%, var(--color-primary));
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  @include button-size-md;
+
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-elevated);
+    border-color: color-mix(in srgb, var(--color-text-muted) 30%, var(--color-border));
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  @include button-size-sm;
+
+  border-color: var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-elevated);
+    border-color: color-mix(in srgb, var(--color-text-muted) 25%, var(--color-border));
+  }
+}
+
+@mixin button-danger-outline {
+  @include button-base;
+  @include button-size-sm;
+
+  border-color: color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
+  background: transparent;
+  color: var(--color-danger);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-danger) 8%, var(--color-surface));
+    border-color: color-mix(in srgb, var(--color-danger) 50%, var(--color-border));
+  }
+}
+
+@mixin button-danger-filled {
+  @include button-base;
+  @include button-size-md;
+
+  border-color: color-mix(in srgb, var(--color-danger) 80%, var(--color-border));
+  background: var(--color-danger);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, #fff 8%, var(--color-danger));
+  }
+}
+
+@mixin segmented-control {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: variables.$radius-md;
+  background: var(--color-surface-elevated);
+}
+
+@mixin segmented-control-button {
+  @include button-base;
+  @include button-size-sm;
+
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--color-text) 4%, transparent);
+  }
+}
+
+@mixin page-title {
+  margin: 0;
+  font-size: clamp(var(--font-size-xl), 1.5vw + 1rem, var(--font-size-2xl));
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.2;
+}
+
+@mixin page-subtitle {
+  margin: 0;
+  max-width: 36rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+@mixin page-accent {
+  width: 1.5rem;
+  height: 2px;
+  border-radius: variables.$radius-pill;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-success) 70%, var(--color-primary)) 100%
+  );
+  opacity: 0.9;
+}
+
+@mixin interactive-row {
+  @include mixins.surface-panel;
+  @include control-transition(border-color, background-color);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--color-text-muted) 22%, var(--color-border));
+    background: color-mix(in srgb, var(--color-text) 2%, var(--color-surface));
+  }
+}
+
+@mixin content-fade-in {
+  animation: content-fade-in var(--motion-default) var(--motion-ease) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes content-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

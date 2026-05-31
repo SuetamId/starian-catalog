@@ -1,0 +1,24 @@
+@use 'styles/index' as styles;
+
+.empty-state {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-sm;
+  padding: styles.$spacing-2xl styles.$spacing-xl;
+  text-align: center;
+}
+
+.empty-state__title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.empty-state__message {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}

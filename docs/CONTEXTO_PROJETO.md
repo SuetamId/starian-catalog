@@ -109,11 +109,20 @@ A loja pública será implementada somente após a conclusão do escopo obrigat�
 - Disponibilizar acesso pelo botão `Visualizar loja` no painel administrativo.
 - Aplicar identidade visual coerente com o projeto.
 
-Rotas previstas:
+Rotas previstas (P1):
 
 ```text
 /store
 /store/products/:id
+```
+
+Rotas administrativas previstas (P0):
+
+```text
+/admin
+/admin/products
+/admin/products/new
+/admin/products/:id/edit
 ```
 
 Objetivo do diferencial:
@@ -154,7 +163,7 @@ As funcionalidades abaixo poderão ser consideradas somente se:
 - Limpar o carrinho após resposta bem-sucedida.
 - Exibir página de sucesso.
 
-Rotas opcionais:
+Rotas opcionais (P2):
 
 ```text
 /store/cart
@@ -171,8 +180,9 @@ Essas funcionalidades não fazem parte do requisito obrigatório e não devem co
 Não implementar:
 
 - autenticação;
+- login;
 - cadastro de usuários;
-- guards de autenticação;
+- `AuthGuard` ou guards de autenticação;
 - interceptores de token;
 - gerenciamento de usuários;
 - backend próprio;
@@ -242,7 +252,7 @@ As regras detalhadas estão documentadas em:
 
 ```text
 docs/SISTEMA_UI.md
-docs/STYLE.md
+docs/STYLES.md
 ```
 
 ---
@@ -323,7 +333,18 @@ A loja pública será considerada concluída quando:
 
 ---
 
-## 15. Priorização
+## 15. Implementação incremental da estrutura
+
+A estrutura completa documentada em `docs/ARQUITETURA.md` descreve o destino arquitetural, mas a implementação deve ser incremental:
+
+- **P0:** criar somente `core`, `shared/ui` quando necessário, `features/catalog` (domínio compartilhado) e `features/admin/products`;
+- **P1:** criar `features/store/catalog` e `features/store/product-details` somente após conclusão validada do CRUD;
+- **P2:** criar `features/store/cart` e `features/store/checkout` somente se houver tempo seguro;
+- **não criar pastas vazias antecipadamente.**
+
+---
+
+## 16. Priorização
 
 A ordem obrigatória de execução é:
 

@@ -9,9 +9,9 @@
 - Instalar somente dependências de UI aprovadas.
 
 ### Fase 2 — Estrutura
-- Criar fronteiras `core`, `shared` e `features/products`.
-- Criar shell mínimo e página placeholder de produtos.
-- Adicionar rotas lazy-loaded da feature.
+- Criar fronteiras `core`, `shared/ui` (quando necessário) e `features/admin/products`.
+- Criar shell mínimo e página placeholder de produtos administrativos.
+- Adicionar rotas lazy-loaded de `features/admin` com redirect `/` → `/admin/products`.
 
 ### Fase 3 — Fundação HTTP
 - Configurar `provideHttpClient()`.

@@ -25,7 +25,8 @@ A especificação aprovada é a fonte de verdade da implementação. Não expand
 - Código interno, tipos, variáveis, nomes de arquivos e testes devem ser escritos em inglês.
 - Textos apresentados na interface podem ser escritos em português.
 - Utilize componentes standalone do Angular.
-- Mantenha a lógica específica de produtos dentro de `features/products`.
+- Mantenha a lógica específica de produtos dentro de `features/admin/products`.
+- Implemente a estrutura de pastas de forma incremental conforme `docs/ARQUITETURA.md`; não crie pastas vazias antecipadamente.
 - Mantenha componentes compartilhados genéricos e reutilizáveis.
 - Prefira código simples e explícito a abstrações criadas para necessidades hipotéticas.
 - Utilize Reactive Forms para criação e edição de produtos.
@@ -38,7 +39,7 @@ A especificação aprovada é a fonte de verdade da implementação. Não expand
 
 ## Limites de escopo
 Não adicione os itens abaixo sem aprovação explícita em uma especificação:
-- autenticação;
+- autenticação (sem login, cadastro, `AuthGuard` ou interceptor de token);
 - carrinho de compras;
 - checkout;
 - backend próprio;

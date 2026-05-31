@@ -1,0 +1,119 @@
+@use 'styles/index' as styles;
+
+.checkout-page {
+  display: grid;
+  gap: styles.$spacing-xl;
+  max-width: 72rem;
+  min-width: 0;
+  margin-inline: auto;
+
+  @include styles.content-fade-in;
+}
+
+.checkout-page__header {
+  display: grid;
+  gap: styles.$spacing-md;
+  padding-bottom: styles.$spacing-lg;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.checkout-page__header-accent {
+  @include styles.page-accent;
+}
+
+.checkout-page__title {
+  @include styles.page-title;
+}
+
+.checkout-page__subtitle {
+  @include styles.page-subtitle;
+}
+
+.checkout-page__layout {
+  display: grid;
+  gap: styles.$spacing-xl;
+  align-items: start;
+
+  @include styles.respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+  }
+}
+
+.checkout-page__form {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-lg;
+  padding: styles.$spacing-lg;
+}
+
+.checkout-page__field {
+  display: grid;
+  gap: styles.$spacing-xs;
+}
+
+.checkout-page__label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.checkout-page__input,
+.checkout-page__textarea {
+  @include styles.input-control;
+}
+
+.checkout-page__textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.checkout-page__error {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+}
+
+.checkout-page__actions {
+  display: grid;
+  gap: styles.$spacing-sm;
+}
+
+.checkout-page__submit {
+  @include styles.button-primary;
+}
+
+.checkout-page__back {
+  @include styles.button-secondary;
+
+  text-align: center;
+  text-decoration: none;
+}
+
+.checkout-page__summary {
+  @include styles.surface-panel;
+
+  display: grid;
+  gap: styles.$spacing-md;
+  padding: styles.$spacing-lg;
+  position: sticky;
+  top: styles.$spacing-md;
+}
+
+.checkout-page__summary-title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.checkout-page__summary-total {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.checkout-page__summary-note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

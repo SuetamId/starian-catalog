@@ -1,0 +1,117 @@
+<section class="products-list-page" aria-labelledby="products-list-title">
+  <header class="products-list-page__header">
+    <div class="products-list-page__header-accent" aria-hidden="true"></div>
+    <div class="products-list-page__header-row">
+      <div class="products-list-page__header-copy">
+        <h1 id="products-list-title" class="products-list-page__title">Produtos</h1>
+        <p class="products-list-page__subtitle">
+          Gerencie o catálogo com busca, filtros e ações rápidas.
+        </p>
+        @if (!showInitialLoading() && !showInitialError() && !store.isProductsEmpty()) {
+          <p class="products-list-page__meta">
+            <span class="products-list-page__count">{{ registeredProductCount() }}</span>
+            produtos cadastrados nesta sessão
+          </p>
+        }
+      </div>
+
+      <div class="products-list-page__toolbar">
+        @if (!showInitialLoading() && !showInitialError() && !store.isProductsEmpty()) {
+          <div class="products-list-page__view-toggle" role="group" aria-label="Modo de visualização">
+            <button
+              class="products-list-page__view-button"
+              type="button"
+              [class.products-list-page__view-button--active]="viewMode() === 'list'"
+              [attr.aria-pressed]="viewMode() === 'list'"
+              aria-label="Visualização em lista"
+              (click)="setViewMode('list')"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+              </svg>
+              Lista
+            </button>
+            <button
+              class="products-list-page__view-button"
+              type="button"
+              [class.products-list-page__view-button--active]="viewMode() === 'grid'"
+              [attr.aria-pressed]="viewMode() === 'grid'"
+              aria-label="Visualização em cards"
+              (click)="setViewMode('grid')"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M5 5h6v6H5V5zm8 0h6v6h-6V5zM5 13h6v6H5v-6zm8 0h6v6h-6v-6z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                />
+              </svg>
+              Cards
+            </button>
+          </div>
+        }
+
+        <a class="products-list-page__create-link" routerLink="/admin/products/new">
+          Novo produto
+        </a>
+      </div>
+    </div>
+  </header>
+
+  @if (showInitialLoading()) {
+    <app-loading-state />
+  } @else if (showInitialError()) {
+    <app-error-state
+      [message]="productsErrorMessage()"
+      (retry)="retryLoadProducts()"
+    />
+  } @else if (store.isProductsEmpty()) {
+    <app-empty-state />
+  } @else {
+    @if (showReloadError()) {
+      <app-error-state
+        class="products-list-page__reload-error"
+        [compact]="true"
+        [message]="productsErrorMessage()"
+        (retry)="retryLoadProducts()"
+      />
+    }
+
+    <app-product-filters
+      [categories]="store.categories()"
+      [searchTerm]="store.searchTerm()"
+      [selectedCategory]="store.selectedCategory()"
+      (searchTermChange)="store.setSearchTerm($event)"
+      (selectedCategoryChange)="store.setSelectedCategory($event)"
+      (clearFilters)="store.clearFilters()"
+    />
+
+    @if (store.isFilteredProductsEmpty()) {
+      <app-filtered-empty-state (clearFilters)="store.clearFilters()" />
+    } @else if (viewMode() === 'list') {
+      <app-product-list
+        [products]="store.filteredProducts()"
+        [deletingProductId]="store.deletingProductId()"
+        (deleteRequested)="onDeleteRequested($event)"
+      />
+    } @else {
+      <app-product-card-grid
+        [products]="store.filteredProducts()"
+        [deletingProductId]="store.deletingProductId()"
+        (deleteRequested)="onDeleteRequested($event)"
+      />
+    }
+  }
+
+  <app-confirm-dialog
+    title="Excluir produto?"
+    [message]="deleteDialogMessage()"
+    confirmLabel="Excluir produto"
+    cancelLabel="Cancelar"
+    [isProcessing]="store.isDeleting()"
+    [errorMessage]="store.deleteError()?.message ?? null"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()"
+  />
+</section>

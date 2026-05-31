@@ -1,32 +1,27 @@
-# Tarefas — Spec 001 Fundação do projeto
+# Tarefas — Spec 003 Loja pública
 
-## Inicialização
-- [ ] Inicializar projeto standalone em Angular 21.
-- [ ] Confirmar versões de pacotes e scripts.
-- [ ] Configurar lint caso não esteja incluído no setup escolhido do CLI.
-- [ ] Selecionar e instalar dependências mínimas de UI.
+## Fundação
 
-## Estrutura
-- [ ] Criar `core/config`.
-- [ ] Criar `core/http`.
-- [ ] Criar `core/layout/app-shell`.
-- [ ] Criar `shared/ui`.
-- [ ] Criar `features/products`.
-- [ ] Adicionar página placeholder de produtos.
-- [ ] Adicionar rotas lazy-loaded de produtos.
-- [ ] Configurar rotas raiz e wildcard.
+- [x] Criar `StoreLayout` (header, main, identidade Starian).
+- [x] Criar `features/store/store.routes.ts`.
+- [x] Registrar rota `/store` em `app.routes.ts`.
+- [x] Habilitar botão **Visualizar loja** no admin.
 
-## HTTP
-- [ ] Adicionar configuração centralizada da API.
-- [ ] Adicionar modelo de erro HTTP normalizado.
-- [ ] Adicionar interceptor funcional de erros.
-- [ ] Registrar `provideHttpClient()` e interceptor.
+## Catálogo
+
+- [x] Criar `CatalogStoreService` com filtros isolados.
+- [x] Criar `CatalogPage` com estados loading/empty/error.
+- [x] Criar `StoreProductGrid` e `StoreFilters`.
+
+## Detalhes
+
+- [x] Criar `ProductDetailsPage` com resolução via store.
 
 ## Qualidade
-- [ ] Adicionar teste smoke de roteamento ou shell.
-- [ ] Executar lint com sucesso.
-- [ ] Executar testes unitários com sucesso.
-- [ ] Executar build de produção com sucesso.
-- [ ] Atualizar comandos do README.
-- [ ] Preencher `review.md`.
-- [ ] Atualizar `docs/ESTADO_ATUAL.md`.
+
+- [x] Testes unitários relevantes.
+- [x] ADR-022.
+- [x] Atualizar `ESTADO_ATUAL.md`, `README.md`, `review.md`.
+- [x] `npm run lint`
+- [x] `npm run test -- --watch=false`
+- [x] `npm run build`

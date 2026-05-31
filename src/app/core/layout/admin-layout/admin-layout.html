@@ -1,0 +1,72 @@
+<div class="admin-layout">
+  <aside class="admin-layout__sidebar" aria-label="Navegação administrativa">
+    <div class="admin-layout__brand">
+      <img
+        class="admin-layout__logo"
+        src="/images/starian-catalog-symbol.svg"
+        alt=""
+        width="32"
+        height="32"
+      />
+      <div class="admin-layout__brand-copy">
+        <span class="admin-layout__brand-name">Starian</span>
+        <span class="admin-layout__brand-label">Catalog</span>
+      </div>
+    </div>
+
+    <div class="admin-layout__brand-accent" aria-hidden="true"></div>
+
+    <nav class="admin-layout__nav" aria-label="Seções">
+      <a
+        class="admin-layout__nav-link"
+        routerLink="/admin/products"
+        routerLinkActive="admin-layout__nav-link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <svg class="admin-layout__nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M4 8l8-4 8 4v8l-8 4-8-4V8z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linejoin="round"
+          />
+          <path d="M12 4v16M4 8l8 4 8-4" stroke="currentColor" stroke-width="1.75" />
+        </svg>
+        Produtos
+      </a>
+    </nav>
+
+    <div class="admin-layout__sidebar-footer">
+      <a
+        class="admin-layout__store-action"
+        routerLink="/store"
+        aria-label="Visualizar loja pública"
+      >
+        <svg class="admin-layout__nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M7 9V7a5 5 0 0 1 10 0v2"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+          />
+          <path
+            d="M6 9h12l-1 11H7L6 9z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Visualizar loja
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-layout__main">
+    <router-outlet />
+  </main>
+
+  <app-toast-container />
+</div>

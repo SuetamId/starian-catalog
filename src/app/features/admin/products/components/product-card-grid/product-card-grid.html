@@ -1,0 +1,33 @@
+<ul class="product-card-grid">
+  @for (product of products(); track product.id) {
+    <li class="product-card-grid__item">
+      <article class="product-card-grid__card">
+        <a
+          class="product-card-grid__link"
+          [routerLink]="['/admin/products', product.id, 'edit']"
+          [attr.aria-label]="'Ver detalhes de ' + product.title"
+        >
+          <app-product-card [product]="product" />
+        </a>
+        <div class="product-card-grid__actions">
+          <a
+            class="product-card-grid__action product-card-grid__action--edit"
+            [routerLink]="['/admin/products', product.id, 'edit']"
+            [attr.aria-label]="'Editar ' + product.title"
+          >
+            Editar
+          </a>
+          <button
+            class="product-card-grid__action product-card-grid__action--delete"
+            type="button"
+            [disabled]="isDeleting(product)"
+            [attr.aria-label]="'Excluir ' + product.title"
+            (click)="requestDelete(product)"
+          >
+            Excluir
+          </button>
+        </div>
+      </article>
+    </li>
+  }
+</ul>

@@ -1,0 +1,37 @@
+<form class="product-filters" (submit)="$event.preventDefault()">
+  <div class="product-filters__field">
+    <label class="product-filters__label" [for]="searchFieldId()">Buscar produtos</label>
+    <input
+      class="product-filters__input"
+      [id]="searchFieldId()"
+      type="search"
+      name="search"
+      [placeholder]="searchPlaceholder()"
+      autocomplete="off"
+      [value]="searchTerm()"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+
+  <div class="product-filters__field">
+    <label class="product-filters__label" [for]="categoryFieldId()">Categoria</label>
+    <select
+      class="product-filters__select"
+      [id]="categoryFieldId()"
+      name="category"
+      [value]="selectedCategory() ?? ''"
+      (change)="onCategoryChange($event)"
+    >
+      <option value="">Todas as categorias</option>
+      @for (category of categories(); track category) {
+        <option [value]="category">{{ categoryLabel(category) }}</option>
+      }
+    </select>
+  </div>
+
+  @if (hasActiveFilters()) {
+    <button class="product-filters__clear" type="button" (click)="onClearFilters()">
+      Limpar filtros
+    </button>
+  }
+</form>

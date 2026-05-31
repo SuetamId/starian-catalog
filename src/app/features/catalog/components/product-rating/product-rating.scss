@@ -1,0 +1,61 @@
+@use 'styles/index' as styles;
+
+.product-rating {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: styles.$spacing-xs;
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.product-rating__stars {
+  display: inline-flex;
+  gap: 0.125rem;
+}
+
+.product-rating__star {
+  position: relative;
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+
+  &::before {
+    content: '★';
+    position: absolute;
+    inset: 0;
+    color: var(--color-border);
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  &--full::before,
+  &--half::after {
+    color: var(--color-primary);
+  }
+
+  &--half::after {
+    content: '★';
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+}
+
+.product-rating__value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.product-rating__count {
+  color: var(--color-text-muted);
+}
+
+.product-rating--compact {
+  gap: 0.25rem;
+}

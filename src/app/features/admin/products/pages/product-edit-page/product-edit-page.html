@@ -1,0 +1,29 @@
+<section class="product-edit-page" aria-labelledby="product-edit-title">
+  <header class="product-edit-page__header">
+    <div class="product-edit-page__header-accent" aria-hidden="true"></div>
+    <h1 id="product-edit-title" class="product-edit-page__title">Editar produto</h1>
+    <p class="product-edit-page__subtitle">Atualize as informações exibidas no catálogo.</p>
+  </header>
+
+  @if (isResolving()) {
+    <app-loading-state />
+  } @else if (resolveError()) {
+    <app-error-state
+      [message]="resolveError()!"
+      (retry)="retryResolveProduct()"
+    />
+  } @else if (product()) {
+    <app-product-form
+      [initialValue]="initialValue()"
+      [categories]="store.categories()"
+      [categoriesLoading]="store.isLoadingCategories()"
+      [categoriesError]="categoriesErrorMessage()"
+      [isSaving]="store.isUpdating()"
+      [submitError]="submitErrorMessage()"
+      submitLabel="Salvar alterações"
+      (save)="onSave($event)"
+      (cancel)="onCancel()"
+      (categoriesRetry)="retryCategories()"
+    />
+  }
+</section>

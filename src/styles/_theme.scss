@@ -1,0 +1,41 @@
+@use 'variables' as variables;
+
+:root {
+  --color-bg: #{variables.$color-bg};
+  --color-surface: #{variables.$color-surface};
+  --color-surface-elevated: #{variables.$color-surface-elevated};
+
+  --color-border: #{variables.$color-border};
+  --color-border-subtle: #{variables.$color-border-subtle};
+
+  --color-text: #{variables.$color-text};
+  --color-text-muted: #{variables.$color-text-muted};
+
+  --color-primary: #{variables.$color-primary};
+  --color-success: #{variables.$color-success};
+  --color-danger: #{variables.$color-danger};
+  --color-warning: #{variables.$color-warning};
+
+  --color-focus: #{variables.$color-focus};
+
+  --font-size-xs: #{variables.$font-size-xs};
+  --font-size-sm: #{variables.$font-size-sm};
+  --font-size-base: #{variables.$font-size-base};
+  --font-size-lg: #{variables.$font-size-lg};
+  --font-size-xl: #{variables.$font-size-xl};
+  --font-size-2xl: #{variables.$font-size-2xl};
+
+  --letter-spacing-tight: #{variables.$letter-spacing-tight};
+  --letter-spacing-normal: #{variables.$letter-spacing-normal};
+
+  --control-height-sm: #{variables.$control-height-sm};
+  --control-height-md: #{variables.$control-height-md};
+
+  --shadow-soft: #{variables.$shadow-soft};
+  --shadow-elevated: #{variables.$shadow-elevated};
+
+  --motion-fast: #{variables.$motion-fast};
+  --motion-default: #{variables.$motion-default};
+  --motion-slow: #{variables.$motion-slow};
+  --motion-ease: #{variables.$motion-ease};
+}

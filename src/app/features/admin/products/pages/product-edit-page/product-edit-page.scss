@@ -1,0 +1,29 @@
+@use 'styles/index' as styles;
+
+.product-edit-page {
+  display: grid;
+  gap: styles.$spacing-xl;
+  max-width: 72rem;
+  min-width: 0;
+
+  @include styles.content-fade-in;
+}
+
+.product-edit-page__header {
+  display: grid;
+  gap: styles.$spacing-md;
+  padding-bottom: styles.$spacing-lg;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.product-edit-page__header-accent {
+  @include styles.page-accent;
+}
+
+.product-edit-page__title {
+  @include styles.page-title;
+}
+
+.product-edit-page__subtitle {
+  @include styles.page-subtitle;
+}

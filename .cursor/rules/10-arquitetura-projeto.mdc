@@ -1,7 +1,4 @@
 ---
-alwaysApply: true
----
----
 description: Arquitetura obrigatória do painel administrativo e da loja pública
 globs:
   - "src/**/*.ts"
@@ -34,8 +31,9 @@ A loja pública, o carrinho e o checkout simulado são diferenciais incrementais
 Não implementar sem solicitação explícita da spec ativa:
 
 - autenticação;
+- login;
 - cadastro de usuário;
-- guards de autenticação;
+- `AuthGuard` ou guards de autenticação;
 - interceptores de token;
 - gerenciamento de usuários;
 - NgRx;
@@ -57,7 +55,7 @@ Cada nova abstração deve resolver um problema real do projeto.
 
 Utilizar organização orientada a features.
 
-Estrutura esperada:
+Estrutura-alvo (implementação incremental; ver seção 3.1):
 
 ```text
 src/app/
@@ -67,14 +65,21 @@ src/app/
 │   └── layout/
 │
 ├── features/
+│   ├── catalog/
+│   │   ├── models/
+│   │   ├── components/
+│   │   └── utils/
+│   │
 │   ├── admin/
 │   │   ├── dashboard/
 │   │   └── products/
-│   │       ├── data-access/
+│   │       ├── services/
+│   │       ├── store/
 │   │       ├── pages/
-│   │       └── ui/
+│   │       └── components/
 │   │
 │   └── store/
+│       ├── components/
 │       ├── catalog/
 │       ├── product-details/
 │       ├── cart/
@@ -83,6 +88,19 @@ src/app/
 └── shared/
     └── ui/
 ```
+
+### 3.1 Implementação incremental
+
+| Prioridade | Criar | Quando |
+|---|---|---|
+| **P0** | `core`, `shared/ui` (quando necessário), `features/admin/products` | Fundação e CRUD |
+| **P1** | `features/store/catalog`, `features/store/product-details` | Após CRUD validado |
+| **P2** | `features/store/cart`, `features/store/checkout` | Somente se houver tempo seguro |
+
+Regras:
+- não criar pastas vazias antecipadamente;
+- lógica administrativa de produtos permanece em `features/admin/products`;
+- `shared/ui` recebe componentes genéricos conforme reutilização comprovada.
 
 Responsabilidades:
 
@@ -115,7 +133,7 @@ Preferir:
 }
 ```
 
-E:
+E, somente a partir de P1:
 
 ```ts
 {
@@ -129,16 +147,27 @@ Componentes de página podem utilizar `loadComponent()` quando fizer sentido.
 
 Não criar NgModules.
 
-Rotas previstas:
+**P0 — painel administrativo:**
 
 ```text
 /admin
 /admin/products
 /admin/products/new
 /admin/products/:id/edit
+```
 
+A raiz `/` deve redirecionar para `/admin/products`.
+
+**P1 — loja pública:**
+
+```text
 /store
 /store/products/:id
+```
+
+**P2 — carrinho e checkout simulado:**
+
+```text
 /store/cart
 /store/checkout
 /store/order-success
