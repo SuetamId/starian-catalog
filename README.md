@@ -4,7 +4,7 @@ Painel administrativo enxuto para gestão de catálogo, desenvolvido como desafi
 
 **Demo online:** [Painel Admin](https://starian-catalog.vercel.app/admin) · [Loja pública](https://starian-catalog.vercel.app/store)
 
-[Demo](#demo-online) · [Executar](#como-executar) · [Escopo](#escopo) · [Arquitetura](#arquitetura) · [IA & MCP](#desenvolvimento-com-ia) · [Documentação](./docs/)
+[Demo](#demo-online) · [Executar](#como-executar) · [Build](#build) · [Escopo](#escopo) · [Arquitetura](#arquitetura) · [IA & MCP](#desenvolvimento-com-ia) · [Documentação](./docs/)
 
 ---
 
@@ -178,33 +178,94 @@ A API é de prototipação: mutações **não persistem no servidor**. O app rec
 
 ## Como executar
 
+**Pré-requisito:** Node.js 22+ e npm 11+.
+
 ```bash
 npm install
 npm start
 ```
-
 
 | URL                                                                          | Contexto     |
 | ---------------------------------------------------------------------------- | ------------ |
 | [http://localhost:4200/admin/products](http://localhost:4200/admin/products) | Painel admin |
 | [http://localhost:4200/store](http://localhost:4200/store)                   | Loja pública |
 
+---
+
+## Build
+
+### Build de produção (npm)
+
+Gera os artefatos estáticos otimizados para deploy:
+
+```bash
+npm run build
+```
+
+Saída em `dist/starian-catalog/browser/` (HTML, JS, CSS com hash para cache).
+
+Para servir localmente o build gerado (ex.: validar rotas SPA antes do deploy):
+
+```bash
+npx --yes serve dist/starian-catalog/browser -l 4200
+```
+
+### Build com Docker
+
+Imagem multi-stage: Node 22 compila o Angular; nginx serve os arquivos estáticos com fallback SPA.
+
+**Docker Compose (recomendado):**
+
+```bash
+docker compose up --build
+```
+
+Para rodar em segundo plano:
+
+```bash
+docker compose up --build -d
+docker compose down   # encerra e remove o container
+```
+
+**Docker direto:**
+
+```bash
+docker build -t starian-catalog .
+docker run --rm -p 8080:80 starian-catalog
+```
+
+| URL | Contexto |
+| --- | --- |
+| [http://localhost:8080/admin](http://localhost:8080/admin) | Painel admin |
+| [http://localhost:8080/store](http://localhost:8080/store) | Loja pública |
+
+Arquivos: `Dockerfile`, `docker-compose.yml`, `docker/nginx.conf`, `.dockerignore`.
 
 ### Scripts
 
+| Comando | Descrição |
+| --- | --- |
+| `npm start` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm test` | Testes unitários (Vitest) |
+| `npm run lint` | ESLint |
+| `npm run audit:ci` | Auditoria de vulnerabilidades (nível moderate+) |
 
-| Comando         | Descrição                   |
-| --------------- | --------------------------- |
-| `npm start`     | Servidor de desenvolvimento |
-| `npm run build` | Build de produção           |
-| `npm test`      | Testes unitários (Vitest)   |
-| `npm run lint`  | ESLint                      |
+### Quality gate (local e CI)
 
+O workflow [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) executa, nesta ordem:
 
-Validação completa:
+1. `npm ci`
+2. `npm run audit:ci`
+3. `npm run lint`
+4. `npm run test -- --watch=false`
+5. `npm run build`
+6. `docker compose build` (job separado, após o quality gate)
+
+Para reproduzir localmente (com dependências já instaladas):
 
 ```bash
-npm run lint && npm run test -- --watch=false && npm run build
+npm run audit:ci && npm run lint && npm run test -- --watch=false && npm run build
 ```
 
 ---

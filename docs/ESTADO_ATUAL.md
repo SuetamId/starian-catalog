@@ -1,6 +1,6 @@
 # Estado atual
 
-Última atualização: renomeação `features/catalog` (2026-05-31)
+Última atualização: CI GitHub Actions (2026-05-31)
 
 ## Concluído
 - Spec 001 — fundação concluída.
@@ -17,6 +17,12 @@
   - comportamento funcional preservado;
   - **202 testes unitários** passando; lint e build passando;
   - ADR-024 registrada.
+- **CI GitHub Actions** (`.github/workflows/ci.yml`):
+  - dispara em push/PR para `main` e `master`;
+  - job `quality`: `npm ci` → `audit:ci` → `lint` → `test --watch=false` → `build`;
+  - job `docker`: `docker compose build`, após `quality`;
+  - Node 22, cache de dependências npm e cache GHA para layers Docker;
+  - validado localmente: **211 testes** passando; lint e build passando.
 
 ## Decisões confirmadas
 - **Reactive Forms tipados** para CRUD e checkout simulado.
