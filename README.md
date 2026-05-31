@@ -2,7 +2,9 @@
 
 Painel administrativo enxuto para gestão de catálogo, desenvolvido como desafio técnico frontend com **Angular 21** e **Fake Store API**.
 
-[Executar](#como-executar) · [Escopo](#escopo) · [Arquitetura](#arquitetura) · [IA & MCP](#desenvolvimento-com-ia) · [Documentação](./docs/)
+**Demo online:** [Painel Admin](https://starian-catalog.vercel.app/admin) · [Loja pública](https://starian-catalog.vercel.app/store)
+
+[Demo](#demo-online) · [Executar](#como-executar) · [Escopo](#escopo) · [Arquitetura](#arquitetura) · [IA & MCP](#desenvolvimento-com-ia) · [Documentação](./docs/)
 
 ---
 
@@ -18,6 +20,19 @@ A aplicação simula uma plataforma de catálogo digital em dois contextos:
 
 
 O foco do projeto é qualidade de execução: arquitetura clara, estados assíncronos previsíveis, formulários reativos, acessibilidade, testes e documentação rastreável.
+
+---
+
+## Demo online
+
+Deploy de demonstração na Vercel:
+
+| Contexto | URL |
+| --- | --- |
+| **Painel admin** | [starian-catalog.vercel.app/admin](https://starian-catalog.vercel.app/admin) |
+| **Loja pública** | [starian-catalog.vercel.app/store](https://starian-catalog.vercel.app/store) |
+
+A loja reflete as mutações feitas no admin **durante a mesma sessão do navegador** (reconciliação local). Um refresh restaura os dados originais da Fake Store API.
 
 ---
 
